@@ -10,9 +10,9 @@ import matplotlib.pyplot as plt
 start = 0
 end = 1
 space = end - start
-num = 10
+num = 130
 x = np.linspace(start, end, num)
-f = 2 * np.ones(x.shape)
+f = 2 * np.sin(x)
 #f = 2
 v = []
 
