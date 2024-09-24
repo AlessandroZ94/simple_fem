@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 start = 0
 end = 1
 space = end - start
-num = 130
+num = 10
 x = np.linspace(start, end, num)
 f = 2 * np.sin(x)
 #f = 2
