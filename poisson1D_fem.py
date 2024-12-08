@@ -2,12 +2,9 @@
 # f = 2
 # BC, Dirichlet: u[0]=u[1]=0
 # weak formulation: integral(u'v') = integral(2*v)
-
+from scipy.sparse import diags
 import numpy as np
 import matplotlib.pyplot as plt
-
-def tridiag(a, b, c, k1=-1, k2=0, k3=1):
-    return np.diag(a, k1) + np.diag(b, k2) + np.diag(c, k3)
     
 start = 0
 end = 1
@@ -27,15 +24,19 @@ for i in range(num):
     plt.plot(x,v[i])
 plt.show()
 b =  np.full((num-2,1),f * omega/((num-1)))
-a = np.zeros([(num-2), (num-2)])
 
 
-lower_upper_diag = np.full((num-3,1),-(num-1))
-main_diag = np.full((num-2,1), (num-1)*2)
-A = tridiag(lower_upper_diag, main_diag, lower_upper_diag)
+k = [
+    np.full(num-3, -(num-1)),         
+    np.full(num-2, (num-1)*2),       
+    np.full(num-3, -(num-1))          
+]
+offset = [-1, 0, 1]                  # Offsets for diagonals
+A = diags(k, offset).toarray()       # Create the matrix and convert to array
 
-print(a)
-r = np.linalg.solve(a,b)
+
+print(A)
+r = np.linalg.solve(A,b)
 
 r = np.insert(r, 0, 0)
 r = np.insert(r, r.size, 0)
